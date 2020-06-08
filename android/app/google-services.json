@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "40368730687",
+    "firebase_url": "https://bz-quiz-e36cd.firebaseio.com",
+    "project_id": "bz-quiz-e36cd",
+    "storage_bucket": "bz-quiz-e36cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40368730687:android:5f13d6399aaa618ebafe8a",
+        "android_client_info": {
+          "package_name": "bzapp.kentokun.com.bz_quiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40368730687-80k1d6v0ggfnviarcj82nsobi9e5k1c3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfoH_xY6Q2sSACcuoUDgq2vpPxUvq9Bdw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40368730687-80k1d6v0ggfnviarcj82nsobi9e5k1c3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "40368730687-utslu9ivtsdmc8afgfvet4qtaenrgova.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kentokun.bz-quiz"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
