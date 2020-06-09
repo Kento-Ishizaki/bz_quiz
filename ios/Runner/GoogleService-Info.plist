@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>40368730687-utslu9ivtsdmc8afgfvet4qtaenrgova.apps.googleusercontent.com</string>
+	<string>40368730687-r74qdkms9u7u5geqnqdsoaqfltesl0qr.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.40368730687-utslu9ivtsdmc8afgfvet4qtaenrgova</string>
+	<string>com.googleusercontent.apps.40368730687-r74qdkms9u7u5geqnqdsoaqfltesl0qr</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAWln-BSXquAU6U-OQcazCtpVnkP7BB1nU</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.kentokun.bz-quiz</string>
+	<string>bzapp.kentokun.com.bzQuiz</string>
 	<key>PROJECT_ID</key>
 	<string>bz-quiz-e36cd</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:40368730687:ios:02afdaf8026eae5ebafe8a</string>
+	<string>1:40368730687:ios:1246a7de8388e9d4bafe8a</string>
 	<key>DATABASE_URL</key>
 	<string>https://bz-quiz-e36cd.firebaseio.com</string>
 </dict>

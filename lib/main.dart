@@ -12,8 +12,9 @@ class MyApp extends StatelessWidget {
       title: 'B\'z Quiz',
       theme: ThemeData(
         brightness: Brightness.dark,
-        accentColor: Colors.cyan,
+        accentColor: Colors.red,
         primaryColorDark: Colors.indigo,
+        buttonColor: Colors.pink,
       ),
       home: Home(),
     );
