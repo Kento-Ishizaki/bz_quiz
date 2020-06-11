@@ -1,5 +1,6 @@
 import 'package:bz_quiz/components/authenticates/start_button.dart';
 import 'package:bz_quiz/components/common/app-bar.dart';
+import 'package:bz_quiz/components/common/backgroung_image.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -13,12 +14,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: appBar('B\'z Quiz'),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/background.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
+        decoration: backgroundImage(),
         child: Center(
           child: StartButton(),
         ),

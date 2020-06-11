@@ -1,4 +1,5 @@
 import 'package:bz_quiz/components/common/app-bar.dart';
+import 'package:bz_quiz/components/common/backgroung_image.dart';
 import 'package:flutter/material.dart';
 
 class Quiz extends StatefulWidget {
@@ -11,8 +12,11 @@ class _QuizState extends State<Quiz> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar('クイズ'),
-      body: Center(
-        child: Text('クイズ回答画面'),
+      body: Container(
+        decoration: backgroundImage(),
+        child: Center(
+          child: Text('クイズ回答画面'),
+        ),
       ),
     );
   }

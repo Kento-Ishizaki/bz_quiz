@@ -1,4 +1,5 @@
 import 'package:bz_quiz/components/common/app-bar.dart';
+import 'package:bz_quiz/components/common/backgroung_image.dart';
 import 'package:bz_quiz/components/quizzes/quiz.dart';
 import 'package:flutter/material.dart';
 
@@ -41,12 +42,15 @@ class Level extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar('レベル選択'),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: _levelCardsWidget(context),
+      body: Container(
+        decoration: backgroundImage(),
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _levelCardsWidget(context),
+            ),
           ),
         ),
       ),
