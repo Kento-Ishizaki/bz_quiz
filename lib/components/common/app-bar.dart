@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
-var appBar = AppBar(
-  title: Text('B\'z Quiz'),
-);
+Widget appBar(String title) {
+  return AppBar(
+    title: Text(title),
+  );
+}

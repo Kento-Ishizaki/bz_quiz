@@ -11,7 +11,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar,
+      appBar: appBar('B\'z Quiz'),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(

@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         accentColor: Colors.red,
         primaryColorDark: Colors.indigo,
-        buttonColor: Colors.pink,
+        buttonColor: Colors.red[900].withOpacity(0.6),
       ),
       home: Home(),
     );
