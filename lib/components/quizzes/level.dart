@@ -4,15 +4,15 @@ import 'package:bz_quiz/components/quizzes/quiz.dart';
 import 'package:flutter/material.dart';
 
 class Level extends StatelessWidget {
-  List levels = ['初級', '中級', '上級'];
-  List levelColors = [Colors.pink[300], Colors.pink[500], Colors.red[700]];
-  List<Widget> levelCards = List<Widget>();
+  List _levels = ['初級', '中級', '上級'];
+  List _levelColors = [Colors.pink[300], Colors.pink[500], Colors.red[700]];
+  List<Widget> _levelCards = List<Widget>();
 
   List<Widget> _levelCardsWidget(BuildContext context) {
-    for (var i = 0; i < levels.length; i++) {
-      levelCards.add(
+    for (var i = 0; i < _levels.length; i++) {
+      _levelCards.add(
         Card(
-          color: levelColors[i].withOpacity(0.9),
+          color: _levelColors[i].withOpacity(0.9),
           child: InkWell(
             splashColor: Colors.white.withAlpha(100),
             onTap: () {
@@ -26,7 +26,7 @@ class Level extends StatelessWidget {
               height: 100,
               child: Center(
                 child: Text(
-                  levels[i],
+                  _levels[i],
                   textScaleFactor: 1.5,
                 ),
               ),
@@ -35,7 +35,7 @@ class Level extends StatelessWidget {
         ),
       );
     }
-    return levelCards;
+    return _levelCards;
   }
 
   @override
