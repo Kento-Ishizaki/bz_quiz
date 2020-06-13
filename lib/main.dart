@@ -1,4 +1,4 @@
-import 'package:bz_quiz/components/home/home.dart';
+import 'package:bz_quiz/components/splashes/splash.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,9 +14,9 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         accentColor: Colors.red,
         primaryColorDark: Colors.indigo,
-        buttonColor: Colors.red[900].withOpacity(0.6),
+        buttonColor: Colors.red[900],
       ),
-      home: Home(),
+      home: Splash(),
     );
   }
 }
