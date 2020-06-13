@@ -1,5 +1,5 @@
 import 'package:bz_quiz/components/quizzes/level.dart';
-import 'package:bz_quiz/services/auth.dart';
+import 'package:bz_quiz/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class StartButton extends StatefulWidget {
@@ -28,7 +28,7 @@ class _StartButtonState extends State<StartButton> {
                 print('error signing in');
                 throw '認証に失敗しました';
               } else {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => Level()),
                 );
