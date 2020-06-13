@@ -2,6 +2,7 @@ import 'package:bz_quiz/components/common/app-bar.dart';
 import 'package:bz_quiz/components/common/backgroung_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'result.dart';
 
@@ -71,6 +72,26 @@ class _QuizState extends State<Quiz> {
     );
   }
 
+  void _showCorrectToast() {
+    Fluttertoast.showToast(
+      msg: "正解です",
+      fontSize: 20.0,
+      gravity: ToastGravity.CENTER,
+      toastLength: Toast.LENGTH_LONG,
+      backgroundColor: Colors.indigoAccent,
+    );
+  }
+
+  void _showIncorrectToast() {
+    Fluttertoast.showToast(
+      msg: "不正解です",
+      fontSize: 20.0,
+      gravity: ToastGravity.CENTER,
+      toastLength: Toast.LENGTH_LONG,
+      backgroundColor: Colors.redAccent,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -90,7 +111,6 @@ class _QuizState extends State<Quiz> {
             );
           default:
             quiz = snapshot.data.documents[_questionIndex];
-            String _correctAnswer = quiz['correct'];
             return Scaffold(
               appBar: appBar('クイズ'),
               body: Container(
@@ -143,5 +163,10 @@ class _QuizState extends State<Quiz> {
         _finalScore++;
       }
     });
+    if (answer == quiz['correct']) {
+      _showCorrectToast();
+    } else {
+      _showIncorrectToast();
+    }
   }
 }
