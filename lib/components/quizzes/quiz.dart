@@ -123,12 +123,12 @@ class _QuizState extends State<Quiz> {
   void _updateQuestion(BuildContext context) {
     setState(() {
       if (_questionNumber == 5) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Result(score: _finalScore),
-          ),
-        );
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Result(score: _finalScore),
+            ),
+            (_) => false);
       } else {
         _questionNumber++;
         _questionIndex++;
