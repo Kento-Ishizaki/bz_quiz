@@ -4,9 +4,9 @@ import 'package:bz_quiz/components/quizzes/quiz.dart';
 import 'package:flutter/material.dart';
 
 class Level extends StatelessWidget {
-  List _levels = ['初級', '中級', '上級'];
-  List _levelColors = [Colors.pink[300], Colors.pink[500], Colors.red[800]];
-  List<Widget> _levelCards = List<Widget>();
+  final List _levels = ['初級', '中級', '上級'];
+  final List _levelColors = [Colors.pink[300], Colors.pink[500], Colors.red[800]];
+  final List<Widget> _levelCards = List<Widget>();
 
   List<Widget> _levelCardsWidget(BuildContext context) {
     for (var i = 0; i < _levels.length; i++) {

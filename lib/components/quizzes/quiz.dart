@@ -11,7 +11,7 @@ class Quiz extends StatefulWidget {
   _QuizState createState() => _QuizState();
 }
 
-class _QuizState extends State<Quiz> {
+class _QuizState extends State<Quiz> with SingleTickerProviderStateMixin {
   final Firestore _firestore = Firestore.instance;
   int _finalScore = 0;
   int _questionNumber = 1;
@@ -94,49 +94,57 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      // Firestoreからデータを取得
-      // TODO ランダムに取得したい
-      stream: _firestore.collection('quizzes').where('level', isEqualTo: 1).limit(5).snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Center(
-            child: Text('データの取得に失敗しました ${snapshot.error}'),
-          );
-        }
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      transitionBuilder: (child, animation) {
+        final _offsetAnimation = Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0)).animate(animation);
+        return SlideTransition(child: child, position: _offsetAnimation);
+      },
+      child: StreamBuilder<QuerySnapshot>(
+        key: ValueKey<int>(_questionIndex),
+        // Firestoreからデータを取得
+        // TODO ランダムに取得したい
+        stream: _firestore.collection('quizzes').where('level', isEqualTo: 1).limit(5).snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: Text('データの取得に失敗しました ${snapshot.error}'),
             );
-          default:
-            quiz = snapshot.data.documents[_questionIndex];
-            return Scaffold(
-              appBar: appBar('クイズ'),
-              body: Container(
-                decoration: backgroundImage(),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.0,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Spacer(),
-                      _question(quiz['question']),
-                      Spacer(flex: 2),
-                      _choiceButton(quiz['option1'], context),
-                      _choiceButton(quiz['option2'], context),
-                      _choiceButton(quiz['option3'], context),
-                      _choiceButton(quiz['option4'], context),
-                      Spacer(),
-                    ],
+          }
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            default:
+              quiz = snapshot.data.documents[_questionIndex];
+              return Scaffold(
+                appBar: appBar('クイズ'),
+                body: Container(
+                  decoration: backgroundImage(),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Spacer(),
+                        _question(quiz['question']),
+                        Spacer(flex: 2),
+                        _choiceButton(quiz['option1'], context),
+                        _choiceButton(quiz['option2'], context),
+                        _choiceButton(quiz['option3'], context),
+                        _choiceButton(quiz['option4'], context),
+                        Spacer(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-        }
-      },
+              );
+          }
+        },
+      ),
     );
   }
 
