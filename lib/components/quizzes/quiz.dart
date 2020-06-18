@@ -2,12 +2,14 @@ import 'package:bz_quiz/components/common/app-bar.dart';
 import 'package:bz_quiz/components/common/backgroung_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:soundpool/soundpool.dart';
 
 import 'result.dart';
 
 class Quiz extends StatefulWidget {
-  int index;
+  final int index;
   Quiz({this.index});
 
   @override
@@ -20,6 +22,7 @@ class _QuizState extends State<Quiz> with SingleTickerProviderStateMixin {
   int _questionNumber = 1;
   int _questionIndex = 0;
   var quiz;
+  final Soundpool _soundpool = Soundpool(streamType: StreamType.notification);
 
   Widget _question(String content) {
     return Card(
@@ -171,13 +174,29 @@ class _QuizState extends State<Quiz> with SingleTickerProviderStateMixin {
     print(quiz['correct']);
     setState(() {
       if (answer == quiz['correct']) {
+        _playCorrectSound();
         _finalScore++;
       }
     });
     if (answer == quiz['correct']) {
       _showCorrectToast();
     } else {
+      _playIncorrectSound();
       _showIncorrectToast();
     }
+  }
+
+  Future _playCorrectSound() async {
+    int soundId = await rootBundle.load("assets/sounds/correct_answer.mp3").then((ByteData soundData) {
+      return _soundpool.load(soundData);
+    });
+    int streamId = await _soundpool.play(soundId);
+  }
+
+  Future _playIncorrectSound() async {
+    int soundId = await rootBundle.load("assets/sounds/incorrect_answer.mp3").then((ByteData soundData) {
+      return _soundpool.load(soundData);
+    });
+    int streamId = await _soundpool.play(soundId);
   }
 }
