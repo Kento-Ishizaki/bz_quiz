@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:bz_quiz/components/common/app-bar.dart';
 import 'package:bz_quiz/components/common/backgroung_image.dart';
 import 'package:bz_quiz/components/quizzes/quiz.dart';
@@ -7,6 +9,8 @@ class Level extends StatelessWidget {
   final List _levels = ['初級', '中級', '上級'];
   final List _levelColors = [Colors.pink[300], Colors.pink[500], Colors.red[800]];
   final List<Widget> _levelCards = List<Widget>();
+  final _rand = math.Random();
+  int index(int min, int max) => min + _rand.nextInt(max - min);
 
   List<Widget> _levelCardsWidget(BuildContext context) {
     for (var i = 0; i < _levels.length; i++) {
@@ -18,7 +22,11 @@ class Level extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Quiz()),
+                MaterialPageRoute(
+                  builder: (context) => Quiz(
+                    index: index(1, 4),
+                  ),
+                ),
               );
             },
             child: Container(

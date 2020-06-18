@@ -7,6 +7,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'result.dart';
 
 class Quiz extends StatefulWidget {
+  int index;
+  Quiz({this.index});
+
   @override
   _QuizState createState() => _QuizState();
 }
@@ -104,7 +107,7 @@ class _QuizState extends State<Quiz> with SingleTickerProviderStateMixin {
         key: ValueKey<int>(_questionIndex),
         // Firestoreからデータを取得
         // TODO ランダムに取得したい
-        stream: _firestore.collection('quizzes').where('level', isEqualTo: 1).limit(5).snapshots(),
+        stream: _firestore.collection('quizzes').where('random', isGreaterThanOrEqualTo: widget.index).limit(5).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Center(
