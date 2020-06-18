@@ -31,7 +31,7 @@ dependencies:
   cloud_firestore: ^0.13.6
   flutter_launcher_icons: ^0.7.5
   fluttertoast: ^4.0.1
-
+  soundpool: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +43,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/sounds/
 
 flutter_icons:
   android: true
