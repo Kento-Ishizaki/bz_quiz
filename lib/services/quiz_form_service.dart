@@ -46,8 +46,8 @@ class QuizFormService extends ChangeNotifier {
         'option4': option4.isEmpty ? quiz.option4 : option4,
         'correct': correct.isEmpty ? quiz.correct : correct,
         // int型へパース
-        'level': level.isEmpty ? quiz.level : level,
-        'random': random.isEmpty ? quiz.random : random,
+        'level': level.isEmpty ? quiz.level : int.parse(level),
+        'random': random.isEmpty ? quiz.random : int.parse(random),
         'updatedAt': Timestamp.now(),
       },
     );

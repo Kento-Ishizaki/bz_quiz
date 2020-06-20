@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:bz_quiz/components/common/app-bar.dart';
 import 'package:bz_quiz/components/common/backgroung_image.dart';
-import 'package:bz_quiz/components/quizzes/settings/index_quiz.dart';
+import 'package:bz_quiz/components/quizzes/plays/play_quiz.dart';
 import 'package:flutter/material.dart';
 
 class Level extends StatelessWidget {
@@ -23,7 +23,7 @@ class Level extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => IndexQuizPage(),
+                  builder: (context) => PlayQuiz(index: 3, level: i),
                 ),
               );
             },

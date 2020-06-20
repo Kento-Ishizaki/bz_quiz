@@ -1,4 +1,22 @@
-class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin {
+import 'package:bz_quiz/components/common/app-bar.dart';
+import 'package:bz_quiz/components/common/backgroung_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:soundpool/soundpool.dart';
+
+import 'result.dart';
+
+class PlayQuiz extends StatefulWidget {
+  final int index;
+  final int level;
+  PlayQuiz({this.index, this.level});
+  @override
+  _PlayQuizState createState() => _PlayQuizState();
+}
+
+class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin {
   final Firestore _firestore = Firestore.instance;
   int _finalScore = 0;
   int _questionNumber = 1;
@@ -92,7 +110,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
         key: ValueKey<int>(_questionIndex),
         // Firestoreからデータを取得
         // TODO ランダムに取得したい
-        stream: _firestore.collection('quizzes').where('random', isGreaterThanOrEqualTo: widget.index).limit(5).snapshots(),
+        stream: _firestore.collection('quizzes').where('level', isEqualTo: widget.level).limit(5).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -172,13 +190,13 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     int soundId = await rootBundle.load("assets/sounds/correct_answer.mp3").then((ByteData soundData) {
       return _soundpool.load(soundData);
     });
-    int streamId = await _soundpool.play(soundId);
+    await _soundpool.play(soundId);
   }
 
   Future _playIncorrectSound() async {
     int soundId = await rootBundle.load("assets/sounds/incorrect_answer.mp3").then((ByteData soundData) {
       return _soundpool.load(soundData);
     });
-    int streamId = await _soundpool.play(soundId);
+    await _soundpool.play(soundId);
   }
 }
