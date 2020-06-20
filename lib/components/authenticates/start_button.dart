@@ -1,13 +1,8 @@
-import 'package:bz_quiz/components/quizzes/level.dart';
+import 'package:bz_quiz/components/quizzes/plays/level.dart';
 import 'package:bz_quiz/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-class StartButton extends StatefulWidget {
-  @override
-  _StartButtonState createState() => _StartButtonState();
-}
-
-class _StartButtonState extends State<StartButton> {
+class StartButton extends StatelessWidget {
   final AuthService _auth = AuthService();
 
   @override

@@ -12,10 +12,10 @@ class QuizFormService extends ChangeNotifier {
   String level;
 
   Future addQuizToFirestore() async {
-    print(correct);
-    print(level);
-    if (question == null) {
+    if (question.isEmpty) {
       throw '問題を入力してください。';
+    } else if (correct.isEmpty) {
+      throw '正解を入力してください。';
     }
     Firestore.instance.collection('quizzes').add(
       <String, dynamic>{

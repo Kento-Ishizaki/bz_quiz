@@ -1,6 +1,6 @@
 import 'package:bz_quiz/components/common/app-bar.dart';
 import 'package:bz_quiz/components/common/backgroung_image.dart';
-import 'package:bz_quiz/components/quizzes/level.dart';
+import 'package:bz_quiz/components/quizzes/plays/level.dart';
 import 'package:flutter/material.dart';
 
 class Result extends StatelessWidget {

@@ -1,11 +1,11 @@
 import 'package:bz_quiz/components/common/app-bar.dart';
 import 'package:bz_quiz/components/common/backgroung_image.dart';
-import 'package:bz_quiz/components/quizzes/quiz_form.dart';
+import 'package:bz_quiz/components/quizzes/settings/quiz_form.dart';
 import 'package:bz_quiz/services/quiz_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class QuizPage extends StatelessWidget {
+class IndexQuizPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<QuizService>(
