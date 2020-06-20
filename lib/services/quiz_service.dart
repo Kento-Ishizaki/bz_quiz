@@ -21,7 +21,7 @@ class QuizService extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           default:
-            return Quiz();
+            return QuizPage();
         }
       },
     );

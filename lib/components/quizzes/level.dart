@@ -23,7 +23,7 @@ class Level extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Quiz(
+                  builder: (context) => QuizPage(
                     index: index(1, 4),
                   ),
                 ),
