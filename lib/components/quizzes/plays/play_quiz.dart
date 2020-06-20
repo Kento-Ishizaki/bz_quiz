@@ -28,6 +28,7 @@ class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin
     return Card(
       color: Colors.grey[800],
       child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15.0),
         height: 100.0,
         child: Center(
           child: Column(
@@ -110,7 +111,7 @@ class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin
         key: ValueKey<int>(_questionIndex),
         // Firestoreからデータを取得
         // TODO ランダムに取得したい
-        stream: _firestore.collection('quizzes').where('level', isEqualTo: widget.level).limit(5).snapshots(),
+        stream: _firestore.collection('quizzes').where('level', isEqualTo: 1).limit(5).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Center(
