@@ -3,19 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class QuizService extends ChangeNotifier {
-  List<QuizModel> quizzes = [];
-//  String option1;
-//  String option2;
-//  String option3;
-//  String option4;
-//  int level;
-//  String correct;
-//  var createdAt;
-//  var updatedAt;
+  List<Quiz> quizzes = [];
 
   Future fetchQuizzes() async {
     final docs = await Firestore.instance.collection('quizzes').getDocuments();
-    final quizzes = docs.documents.map((doc) => QuizModel(doc['question'])).toList();
+    final quizzes = docs.documents.map((doc) => Quiz(doc)).toList();
     this.quizzes = quizzes;
     notifyListeners();
   }
