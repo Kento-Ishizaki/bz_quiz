@@ -1,29 +1,22 @@
-import 'package:bz_quiz/components/quizzes/quiz.dart';
+import 'package:bz_quiz/models/quiz_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class QuizService extends StatelessWidget {
-  final Firestore firestore = Firestore.instance;
+class QuizService extends ChangeNotifier {
+  List<QuizModel> quizzes = [];
+//  String option1;
+//  String option2;
+//  String option3;
+//  String option4;
+//  int level;
+//  String correct;
+//  var createdAt;
+//  var updatedAt;
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: firestore.collection('quizzes').snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Center(
-            child: Text('データの取得に失敗しました ${snapshot.error}'),
-          );
-        }
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          default:
-            return QuizPage();
-        }
-      },
-    );
+  Future fetchQuizzes() async {
+    final docs = await Firestore.instance.collection('quizzes').getDocuments();
+    final quizzes = docs.documents.map((doc) => QuizModel(doc['question'])).toList();
+    this.quizzes = quizzes;
+    notifyListeners();
   }
 }
