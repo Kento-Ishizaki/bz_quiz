@@ -1,5 +1,6 @@
 import 'package:bz_quiz/components/common/app-bar.dart';
 import 'package:bz_quiz/components/common/backgroung_image.dart';
+import 'package:bz_quiz/components/home/home.dart';
 import 'package:bz_quiz/components/quizzes/plays/level.dart';
 import 'package:flutter/material.dart';
 
@@ -43,6 +44,19 @@ class Result extends StatelessWidget {
                     },
                   ),
                 ),
+                Container(
+                  height: 70.0,
+                  margin: EdgeInsets.only(top: 50.0),
+                  child: RaisedButton(
+                    child: Text(
+                      'TOPに戻る',
+                      textScaleFactor: 1.2,
+                    ),
+                    onPressed: () {
+                      _showTopScreen(context);
+                    },
+                  ),
+                ),
               ],
             ),
           ),
@@ -55,6 +69,13 @@ class Result extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => Level()),
+    );
+  }
+
+  void _showTopScreen(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => Home()),
     );
   }
 }

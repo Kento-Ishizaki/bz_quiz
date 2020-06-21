@@ -23,7 +23,7 @@ class StartButton extends StatelessWidget {
                 print('error signing in');
                 throw '認証に失敗しました';
               } else {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Level()),
                 );
