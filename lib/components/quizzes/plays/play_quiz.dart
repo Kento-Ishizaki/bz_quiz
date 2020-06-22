@@ -1,5 +1,6 @@
 import 'package:bz_quiz/components/common/app-bar.dart';
 import 'package:bz_quiz/components/common/backgroung_image.dart';
+import 'package:bz_quiz/models/quiz_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,9 +10,8 @@ import 'package:soundpool/soundpool.dart';
 import 'result.dart';
 
 class PlayQuiz extends StatefulWidget {
-  final int index;
   final int level;
-  PlayQuiz({this.index, this.level});
+  PlayQuiz({this.level});
   @override
   _PlayQuizState createState() => _PlayQuizState();
 }
@@ -99,6 +99,13 @@ class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin
     );
   }
 
+  Future<List> _getRandomQuiz(int level) async {
+    var docs = await _firestore.collection('quizzes').where('level', isEqualTo: level).getDocuments();
+    final quizzes = docs.documents.map((doc) => Quiz(doc)).toList();
+    quizzes.shuffle();
+    return quizzes;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
@@ -107,12 +114,11 @@ class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin
         final _offsetAnimation = Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0)).animate(animation);
         return SlideTransition(child: child, position: _offsetAnimation);
       },
-      child: StreamBuilder<QuerySnapshot>(
+      child: FutureBuilder<List>(
         key: ValueKey<int>(_questionIndex),
         // Firestoreからデータを取得
-        // TODO ランダムに取得したい
-        stream: _firestore.collection('quizzes').where('level', isEqualTo: 1).limit(5).snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        future: _getRandomQuiz(widget.level),
+        builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
           if (snapshot.hasError) {
             return Center(
               child: Text('データの取得に失敗しました ${snapshot.error}'),
@@ -124,7 +130,7 @@ class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin
                 child: CircularProgressIndicator(),
               );
             default:
-              quiz = snapshot.data.documents[_questionIndex];
+              quiz = snapshot.data[_questionIndex];
               return Scaffold(
                 appBar: appBar('クイズ'),
                 body: Container(
@@ -137,12 +143,12 @@ class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Spacer(),
-                        _question(quiz['question']),
+                        _question(quiz.question),
                         Spacer(flex: 2),
-                        _choiceButton(quiz['option1'], context),
-                        _choiceButton(quiz['option2'], context),
-                        _choiceButton(quiz['option3'], context),
-                        _choiceButton(quiz['option4'], context),
+                        _choiceButton(quiz.option1, context),
+                        _choiceButton(quiz.option2, context),
+                        _choiceButton(quiz.option3, context),
+                        _choiceButton(quiz.option4, context),
                         Spacer(),
                       ],
                     ),
@@ -172,14 +178,14 @@ class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin
   }
 
   void _checkAnswer(String answer) {
-    print(quiz['correct']);
+    print(quiz.correct);
     setState(() {
-      if (answer == quiz['correct']) {
+      if (answer == quiz.correct) {
         _playCorrectSound();
         _finalScore++;
       }
     });
-    if (answer == quiz['correct']) {
+    if (answer == quiz.correct) {
       _showCorrectToast();
     } else {
       _playIncorrectSound();

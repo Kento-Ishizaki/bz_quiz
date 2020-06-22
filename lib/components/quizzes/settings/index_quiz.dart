@@ -32,6 +32,7 @@ class IndexQuizPage extends StatelessWidget {
                         model.fetchQuizzes();
                       },
                       child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 15.0),
                         height: 50.0,
                         child: Center(
                           child: Text(
