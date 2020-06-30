@@ -1,30 +1,19 @@
 import 'package:bz_quiz/components/common/app-bar.dart';
 import 'package:bz_quiz/components/common/backgroung_image.dart';
-import 'package:bz_quiz/models/quiz_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bz_quiz/components/quizzes/plays/result.dart';
+import 'package:bz_quiz/providers/quiz_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:soundpool/soundpool.dart';
 
-import 'result.dart';
-
-class PlayQuiz extends StatefulWidget {
+class PlayQuiz extends StatelessWidget {
   final int level;
   PlayQuiz({this.level});
-  @override
-  _PlayQuizState createState() => _PlayQuizState();
-}
-
-class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin {
-  final Firestore _firestore = Firestore.instance;
-  int _finalScore = 0;
-  int _questionNumber = 1;
-  int _questionIndex = 0;
-  var quiz;
   final Soundpool _soundpool = Soundpool(streamType: StreamType.notification);
 
-  Widget _question(String content) {
+  Widget _question(String content, int questionNumber) {
     return Card(
       color: Colors.grey[800],
       child: Container(
@@ -35,7 +24,7 @@ class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Q$_questionNumber.',
+                'Question ' + questionNumber.toString(),
                 textScaleFactor: 1.2,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -55,28 +44,48 @@ class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin
     );
   }
 
-  Widget _choiceButton(String content, BuildContext context) {
+  Widget _choiceButton({String choice, String answer, BuildContext context, dynamic model}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3.0),
       child: Card(
         color: Colors.grey[700],
         child: InkWell(
           splashColor: Colors.white.withAlpha(100),
-          onTap: () {
-            _updateQuestion(context);
-            _checkAnswer(content);
+          onTap: () async {
+            await model.addQuestionNumber();
+            _checkAnswer(choice: choice, answer: answer, model: model);
+            if (model.questionNumber == 5) {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Result(score: model.finalScore),
+                  fullscreenDialog: true,
+                ),
+              );
+            }
           },
           child: Container(
             height: 50.0,
             child: Center(
               child: Text(
-                content,
+                choice,
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _checkAnswer({String choice, String answer, dynamic model}) async {
+    if (choice == answer) {
+      _playCorrectSound();
+      _showCorrectToast();
+      await model.addFinalScore();
+    } else {
+      _playIncorrectSound();
+      _showIncorrectToast();
+    }
   }
 
   void _showCorrectToast() {
@@ -99,100 +108,6 @@ class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin
     );
   }
 
-  Future<List> _getRandomQuiz(int level) async {
-    var docs = await _firestore.collection('quizzes').where('level', isEqualTo: level).getDocuments();
-    final quizzes = docs.documents.map((doc) => Quiz(doc)).toList();
-    quizzes.shuffle();
-    return quizzes;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: Duration(milliseconds: 500),
-      transitionBuilder: (child, animation) {
-        final _offsetAnimation = Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0)).animate(animation);
-        return SlideTransition(child: child, position: _offsetAnimation);
-      },
-      child: FutureBuilder<List>(
-        key: ValueKey<int>(_questionIndex),
-        // Firestoreからデータを取得
-        future: _getRandomQuiz(widget.level),
-        builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('データの取得に失敗しました ${snapshot.error}'),
-            );
-          }
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            default:
-              quiz = snapshot.data[_questionIndex];
-              return Scaffold(
-                appBar: appBar('クイズ'),
-                body: Container(
-                  decoration: backgroundImage(),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20.0,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Spacer(),
-                        _question(quiz.question),
-                        Spacer(flex: 2),
-                        _choiceButton(quiz.option1, context),
-                        _choiceButton(quiz.option2, context),
-                        _choiceButton(quiz.option3, context),
-                        _choiceButton(quiz.option4, context),
-                        Spacer(),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-          }
-        },
-      ),
-    );
-  }
-
-  void _updateQuestion(BuildContext context) {
-    setState(() {
-      if (_questionNumber == 5) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Result(score: _finalScore),
-            ),
-            (_) => false);
-      } else {
-        _questionNumber++;
-        _questionIndex++;
-      }
-    });
-  }
-
-  void _checkAnswer(String answer) {
-    print(quiz.correct);
-    setState(() {
-      if (answer == quiz.correct) {
-        _playCorrectSound();
-        _finalScore++;
-      }
-    });
-    if (answer == quiz.correct) {
-      _showCorrectToast();
-    } else {
-      _playIncorrectSound();
-      _showIncorrectToast();
-    }
-  }
-
   Future _playCorrectSound() async {
     int soundId = await rootBundle.load("assets/sounds/correct_answer.mp3").then((ByteData soundData) {
       return _soundpool.load(soundData);
@@ -205,5 +120,48 @@ class _PlayQuizState extends State<PlayQuiz> with SingleTickerProviderStateMixin
       return _soundpool.load(soundData);
     });
     await _soundpool.play(soundId);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: appBar('クイズ'),
+      body: Consumer<QuizProvider>(builder: (context, model, child) {
+        switch (level) {
+          case 1:
+            model.fetchLevel1Quizzes();
+            break;
+          case 2:
+            model.fetchLevel2Quizzes();
+            break;
+          case 3:
+            model.fetchLevel3Quizzes();
+            break;
+        }
+        final quizzes = model.quizzes;
+        final _questionNumber = model.questionNumber;
+        return Container(
+          decoration: backgroundImage(),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 20.0,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Spacer(),
+                _question(quizzes[_questionNumber].question, _questionNumber + 1),
+                Spacer(flex: 2),
+                _choiceButton(choice: quizzes[_questionNumber].option1, answer: quizzes[_questionNumber].correct, context: context, model: model),
+                _choiceButton(choice: quizzes[_questionNumber].option2, answer: quizzes[_questionNumber].correct, context: context, model: model),
+                _choiceButton(choice: quizzes[_questionNumber].option3, answer: quizzes[_questionNumber].correct, context: context, model: model),
+                _choiceButton(choice: quizzes[_questionNumber].option4, answer: quizzes[_questionNumber].correct, context: context, model: model),
+                Spacer(),
+              ],
+            ),
+          ),
+        );
+      }),
+    );
   }
 }

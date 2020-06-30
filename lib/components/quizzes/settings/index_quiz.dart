@@ -13,7 +13,7 @@ class IndexQuizPage extends StatelessWidget {
       body: Consumer<QuizProvider>(
         builder: (context, model, child) {
           model.fetchAllQuizzes();
-          final quizzes = model.quizzes;
+          final quizzes = model.allQuizzes;
           final listTiles = quizzes
               .map(
                 (quiz) => Card(
@@ -28,7 +28,7 @@ class IndexQuizPage extends StatelessWidget {
                           fullscreenDialog: true,
                         ),
                       );
-                      model.fetchAllQuizzes();
+                      model..fetchAllQuizzes();
                     },
                     child: Container(
                       padding: EdgeInsets.all(15.0),
