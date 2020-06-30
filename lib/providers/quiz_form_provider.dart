@@ -2,7 +2,7 @@ import 'package:bz_quiz/models/quiz_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class QuizFormService extends ChangeNotifier {
+class QuizFormProvider extends ChangeNotifier {
   String question = '';
   String option1 = '';
   String option2 = '';

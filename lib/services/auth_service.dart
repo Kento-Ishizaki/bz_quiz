@@ -15,8 +15,4 @@ class AuthService {
       return null;
     }
   }
-  // sign in with twitter
-
-  // sign out
-
 }

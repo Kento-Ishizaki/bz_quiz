@@ -1,7 +1,7 @@
 import 'package:bz_quiz/components/common/app-bar.dart';
 import 'package:bz_quiz/components/common/backgroung_image.dart';
 import 'package:bz_quiz/models/quiz_model.dart';
-import 'package:bz_quiz/services/quiz_form_service.dart';
+import 'package:bz_quiz/providers/quiz_form_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -31,13 +31,13 @@ class QuizFormPage extends StatelessWidget {
     levelController.text = isUpdate ? quiz.level.toString() : '';
     randomController.text = isUpdate ? quiz.random.toString() : '';
 
-    return ChangeNotifierProvider<QuizFormService>(
-      create: (_) => QuizFormService(),
+    return ChangeNotifierProvider<QuizFormProvider>(
+      create: (_) => QuizFormProvider(),
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Scaffold(
             appBar: appBar(isUpdate ? 'クイズ編集' : 'クイズ追加'),
-            body: Consumer<QuizFormService>(
+            body: Consumer<QuizFormProvider>(
               builder: (context, model, child) {
                 return SingleChildScrollView(
                   child: Container(
@@ -150,7 +150,7 @@ class QuizFormPage extends StatelessWidget {
     );
   }
 
-  Future addQuiz(QuizFormService model, BuildContext context) async {
+  Future addQuiz(QuizFormProvider model, BuildContext context) async {
     try {
       await model.addQuizToFirestore();
       await showDialog<void>(
@@ -193,7 +193,7 @@ class QuizFormPage extends StatelessWidget {
     }
   }
 
-  Future updateQuiz(QuizFormService model, BuildContext context) async {
+  Future updateQuiz(QuizFormProvider model, BuildContext context) async {
     try {
       print(model.question);
       print(quiz.question);
