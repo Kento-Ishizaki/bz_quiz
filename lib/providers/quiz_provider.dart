@@ -7,9 +7,11 @@ class QuizProvider extends ChangeNotifier {
   List<Quiz> quizzes = [];
   int _finalScore = 0;
   int _questionNumber = 0;
+  int _level;
 
   int get finalScore => _finalScore;
   int get questionNumber => _questionNumber;
+  int get level => _level;
 
   Future fetchAllQuizzes() async {
     final docs = await Firestore.instance.collection('quizzes').getDocuments();
@@ -20,23 +22,28 @@ class QuizProvider extends ChangeNotifier {
 
   Future fetchLevel1Quizzes() async {
     final docs = await Firestore.instance.collection('quizzes').where('level', isEqualTo: 1).getDocuments();
-    final quizzes = docs.documents.map((doc) => Quiz(doc)).toList();
+    List quizzes = docs.documents.map((doc) => Quiz(doc)).toList();
     quizzes.shuffle();
     this.quizzes = quizzes.sublist(0, 6);
   }
 
   Future fetchLevel2Quizzes() async {
     final docs = await Firestore.instance.collection('quizzes').where('level', isEqualTo: 2).getDocuments();
-    final quizzes = docs.documents.map((doc) => Quiz(doc)).toList();
+    List quizzes = docs.documents.map((doc) => Quiz(doc)).toList();
     quizzes.shuffle();
     this.quizzes = quizzes.sublist(0, 6);
   }
 
   Future fetchLevel3Quizzes() async {
     final docs = await Firestore.instance.collection('quizzes').where('level', isEqualTo: 3).getDocuments();
-    final quizzes = docs.documents.map((doc) => Quiz(doc)).toList();
+    List quizzes = docs.documents.map((doc) => Quiz(doc)).toList();
     quizzes.shuffle();
     this.quizzes = quizzes.sublist(0, 6);
+  }
+
+  Future<void> setLevel({int level}) async {
+    _level = level;
+    notifyListeners();
   }
 
   void addFinalScore() {

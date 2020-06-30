@@ -9,8 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:soundpool/soundpool.dart';
 
 class PlayQuiz extends StatelessWidget {
-  final int level;
-  PlayQuiz({this.level});
   final Soundpool _soundpool = Soundpool(streamType: StreamType.notification);
 
   Widget _question(String content, int questionNumber) {
@@ -127,7 +125,7 @@ class PlayQuiz extends StatelessWidget {
     return Scaffold(
       appBar: appBar('クイズ'),
       body: Consumer<QuizProvider>(builder: (context, model, child) {
-        switch (level) {
+        switch (model.level) {
           case 1:
             model.fetchLevel1Quizzes();
             break;

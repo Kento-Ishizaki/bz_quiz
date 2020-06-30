@@ -3,7 +3,9 @@ import 'dart:math' as math;
 import 'package:bz_quiz/components/common/app-bar.dart';
 import 'package:bz_quiz/components/common/backgroung_image.dart';
 import 'package:bz_quiz/components/quizzes/plays/play_quiz.dart';
+import 'package:bz_quiz/providers/quiz_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Level extends StatelessWidget {
   final List _levels = ['初級', '中級', '上級'];
@@ -17,27 +19,30 @@ class Level extends StatelessWidget {
       _levelCards.add(
         Card(
           color: _levelColors[i].withOpacity(0.9),
-          child: InkWell(
-            splashColor: Colors.white.withAlpha(100),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PlayQuiz(level: i + 1),
-                ),
-              );
-            },
-            child: Container(
-              width: 300,
-              height: 100,
-              child: Center(
-                child: Text(
-                  _levels[i],
-                  textScaleFactor: 1.5,
+          child: Consumer<QuizProvider>(builder: (context, model, child) {
+            return InkWell(
+              splashColor: Colors.white.withAlpha(100),
+              onTap: () async {
+                await model.setLevel(level: i + 1);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PlayQuiz(),
+                  ),
+                );
+              },
+              child: Container(
+                width: 300,
+                height: 100,
+                child: Center(
+                  child: Text(
+                    _levels[i],
+                    textScaleFactor: 1.5,
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          }),
         ),
       );
     }
