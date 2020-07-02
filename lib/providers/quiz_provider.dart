@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 
 class QuizProvider extends ChangeNotifier {
   List<Quiz> allQuizzes = [];
-  List<Quiz> quizzes = [];
+  List<Quiz> _level1Quizzes = [];
+  List<Quiz> _level2Quizzes = [];
+  List<Quiz> _level3Quizzes = [];
   int _finalScore = 0;
   int _questionNumber = 0;
   int _level;
@@ -12,6 +14,9 @@ class QuizProvider extends ChangeNotifier {
   int get finalScore => _finalScore;
   int get questionNumber => _questionNumber;
   int get level => _level;
+  List get level1Quizzes => _level1Quizzes;
+  List get level2Quizzes => _level2Quizzes;
+  List get level3Quizzes => _level3Quizzes;
 
   Future fetchAllQuizzes() async {
     final docs = await Firestore.instance.collection('quizzes').getDocuments();
@@ -24,21 +29,21 @@ class QuizProvider extends ChangeNotifier {
     final docs = await Firestore.instance.collection('quizzes').where('level', isEqualTo: 1).getDocuments();
     List quizzes = docs.documents.map((doc) => Quiz(doc)).toList();
     quizzes.shuffle();
-    this.quizzes = quizzes.sublist(0, 6);
+    this._level1Quizzes = quizzes.sublist(0, 6);
   }
 
   Future fetchLevel2Quizzes() async {
     final docs = await Firestore.instance.collection('quizzes').where('level', isEqualTo: 2).getDocuments();
     List quizzes = docs.documents.map((doc) => Quiz(doc)).toList();
     quizzes.shuffle();
-    this.quizzes = quizzes.sublist(0, 6);
+    this._level2Quizzes = quizzes.sublist(0, 6);
   }
 
   Future fetchLevel3Quizzes() async {
     final docs = await Firestore.instance.collection('quizzes').where('level', isEqualTo: 3).getDocuments();
     List quizzes = docs.documents.map((doc) => Quiz(doc)).toList();
     quizzes.shuffle();
-    this.quizzes = quizzes.sublist(0, 6);
+    this._level3Quizzes = quizzes.sublist(0, 6);
   }
 
   Future<void> setLevel({int level}) async {

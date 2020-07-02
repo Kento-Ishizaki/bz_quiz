@@ -51,6 +51,9 @@ class Level extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final level1Quizzes = Provider.of<QuizProvider>(context, listen: false)..fetchLevel1Quizzes();
+    final level2Quizzes = Provider.of<QuizProvider>(context, listen: false)..fetchLevel2Quizzes();
+    final level3Quizzes = Provider.of<QuizProvider>(context, listen: false)..fetchLevel3Quizzes();
     return Scaffold(
       appBar: appBar('レベル選択'),
       body: Container(

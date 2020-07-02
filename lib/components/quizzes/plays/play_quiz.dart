@@ -122,21 +122,17 @@ class PlayQuiz extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List quizzes;
     return Scaffold(
       appBar: appBar('クイズ'),
       body: Consumer<QuizProvider>(builder: (context, model, child) {
-        switch (model.level) {
-          case 1:
-            model.fetchLevel1Quizzes();
-            break;
-          case 2:
-            model.fetchLevel2Quizzes();
-            break;
-          case 3:
-            model.fetchLevel3Quizzes();
-            break;
+        if (model.level == 1) {
+          quizzes = model.level1Quizzes;
+        } else if (model.level == 2) {
+          quizzes = model.level2Quizzes;
+        } else {
+          quizzes = model.level3Quizzes;
         }
-        final quizzes = model.quizzes;
         final _questionNumber = model.questionNumber;
         return Container(
           decoration: backgroundImage(),
