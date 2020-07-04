@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:soundpool/soundpool.dart';
 
 class PlayQuiz extends StatelessWidget {
+  final int level;
+  PlayQuiz({this.level});
   final Soundpool _soundpool = Soundpool(streamType: StreamType.notification);
 
   Widget _question(String content, int questionNumber) {
@@ -123,15 +125,19 @@ class PlayQuiz extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List quizzes;
+    print(level);
     return Scaffold(
       appBar: appBar('クイズ'),
       body: Consumer<QuizProvider>(builder: (context, model, child) {
-        if (model.level == 1) {
-          quizzes = model.level1Quizzes;
-        } else if (model.level == 2) {
-          quizzes = model.level2Quizzes;
-        } else {
-          quizzes = model.level3Quizzes;
+        switch (level) {
+          case 1:
+            quizzes = model.level1Quizzes;
+            break;
+          case 2:
+            quizzes = model.level2Quizzes;
+            break;
+          case 3:
+            quizzes = model.level3Quizzes;
         }
         final _questionNumber = model.questionNumber;
         return Container(

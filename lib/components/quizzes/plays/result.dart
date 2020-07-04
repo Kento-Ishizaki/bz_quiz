@@ -41,32 +41,40 @@ class Result extends StatelessWidget {
                   ),
                   Container(
                     height: 70.0,
+                    width: 210.0,
                     margin: EdgeInsets.only(top: 50.0),
                     child: RaisedButton(
-                      child: Text(
+                      child: const Text(
                         'レベル選択画面に戻る',
                         textScaleFactor: 1.2,
                       ),
                       onPressed: () {
-                        Navigator.pushReplacement(
+                        Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => Level()),
+                          MaterialPageRoute(
+                            builder: (context) => Level(),
+                          ),
+                          (Route<dynamic> route) => false,
                         );
                       },
                     ),
                   ),
                   Container(
                     height: 70.0,
+                    width: 210.0,
                     margin: EdgeInsets.only(top: 50.0),
                     child: RaisedButton(
-                      child: Text(
+                      child: const Text(
                         'TOPに戻る',
                         textScaleFactor: 1.2,
                       ),
                       onPressed: () {
-                        Navigator.pushReplacement(
+                        Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => Home()),
+                          MaterialPageRoute(
+                            builder: (context) => Home(),
+                          ),
+                          (Route<dynamic> route) => false,
                         );
                       },
                     ),
@@ -80,13 +88,13 @@ class Result extends StatelessWidget {
     );
   }
 
-  void _checkPerfect(int score) {
+  Future<void> _checkPerfect(int score) async {
     if (score == 5) {
-      _playPerfectSound();
+      await _playPerfectSound();
     }
   }
 
-  Future _playPerfectSound() async {
+  Future<void> _playPerfectSound() async {
     int soundId = await rootBundle.load("assets/sounds/perfect.mp3").then((ByteData soundData) {
       return _soundpool.load(soundData);
     });

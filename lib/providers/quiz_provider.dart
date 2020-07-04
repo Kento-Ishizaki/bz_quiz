@@ -9,11 +9,9 @@ class QuizProvider extends ChangeNotifier {
   List<Quiz> _level3Quizzes = [];
   int _finalScore = 0;
   int _questionNumber = 0;
-  int _level;
 
   int get finalScore => _finalScore;
   int get questionNumber => _questionNumber;
-  int get level => _level;
   List get level1Quizzes => _level1Quizzes;
   List get level2Quizzes => _level2Quizzes;
   List get level3Quizzes => _level3Quizzes;
@@ -46,11 +44,6 @@ class QuizProvider extends ChangeNotifier {
     this._level3Quizzes = quizzes.sublist(0, 6);
   }
 
-  Future<void> setLevel({int level}) async {
-    _level = level;
-    notifyListeners();
-  }
-
   void addFinalScore() {
     _finalScore++;
     notifyListeners();
@@ -64,6 +57,5 @@ class QuizProvider extends ChangeNotifier {
   void resetQuiz() {
     _finalScore = 0;
     _questionNumber = 0;
-    notifyListeners();
   }
 }

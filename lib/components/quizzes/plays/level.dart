@@ -23,12 +23,12 @@ class Level extends StatelessWidget {
             return InkWell(
               splashColor: Colors.white.withAlpha(100),
               onTap: () async {
-                await model.setLevel(level: i + 1);
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PlayQuiz(),
+                    builder: (context) => PlayQuiz(level: i + 1),
                   ),
+                  (Route<dynamic> route) => false,
                 );
               },
               child: Container(
