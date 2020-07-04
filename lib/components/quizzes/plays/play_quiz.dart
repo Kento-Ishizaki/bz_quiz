@@ -55,12 +55,13 @@ class PlayQuiz extends StatelessWidget {
             await model.addQuestionNumber();
             _checkAnswer(choice: choice, answer: answer, model: model);
             if (model.questionNumber == 5) {
-              await Navigator.push(
+              await Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
                   builder: (context) => Result(score: model.finalScore),
                   fullscreenDialog: true,
                 ),
+                (Route<dynamic> route) => false,
               );
             }
           },
