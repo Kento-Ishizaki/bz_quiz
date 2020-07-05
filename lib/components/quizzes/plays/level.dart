@@ -23,13 +23,15 @@ class Level extends StatelessWidget {
             return InkWell(
               splashColor: Colors.white.withAlpha(100),
               onTap: () async {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PlayQuiz(level: i + 1),
-                  ),
-                  (Route<dynamic> route) => false,
-                );
+                Future.delayed(const Duration(milliseconds: 200), () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PlayQuiz(level: i + 1),
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
+                });
               },
               child: Container(
                 width: 300,
@@ -51,9 +53,10 @@ class Level extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final level1Quizzes = Provider.of<QuizProvider>(context, listen: false)..fetchLevel1Quizzes();
-    final level2Quizzes = Provider.of<QuizProvider>(context, listen: false)..fetchLevel2Quizzes();
-    final level3Quizzes = Provider.of<QuizProvider>(context, listen: false)..fetchLevel3Quizzes();
+    Provider.of<QuizProvider>(context, listen: false)..fetchLevel1Quizzes();
+    Provider.of<QuizProvider>(context, listen: false)..fetchLevel2Quizzes();
+    Provider.of<QuizProvider>(context, listen: false)..fetchLevel3Quizzes();
+    Provider.of<QuizProvider>(context, listen: false).resetQuiz();
     return Scaffold(
       appBar: appBar('レベル選択'),
       body: Container(
