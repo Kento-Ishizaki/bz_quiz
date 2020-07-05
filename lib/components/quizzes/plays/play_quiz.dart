@@ -125,8 +125,7 @@ class PlayQuiz extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List quizzes;
-    print(level);
+    List quizzes = [];
     return Scaffold(
       appBar: appBar('クイズ'),
       body: Consumer<QuizProvider>(builder: (context, model, child) {
