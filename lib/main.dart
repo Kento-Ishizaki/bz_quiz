@@ -25,9 +25,9 @@ class MyApp extends StatelessWidget {
         title: 'B\'z Quiz',
         theme: ThemeData(
           brightness: Brightness.dark,
-          accentColor: Colors.red,
+          accentColor: Colors.redAccent,
           primaryColorDark: Colors.indigo,
-          buttonColor: Colors.red[900],
+          buttonColor: Colors.redAccent,
         ),
         home: Splash(),
       ),
