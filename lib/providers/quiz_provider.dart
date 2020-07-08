@@ -9,6 +9,7 @@ class QuizProvider extends ChangeNotifier {
   List<Quiz> level3Quizzes = [];
   int _finalScore = 0;
   int _questionNumber = 0;
+  bool isWaiting = false;
 
   int get finalScore => _finalScore;
   int get questionNumber => _questionNumber;
@@ -54,5 +55,14 @@ class QuizProvider extends ChangeNotifier {
   void resetQuiz() {
     _finalScore = 0;
     _questionNumber = 0;
+  }
+
+  void changeState() {
+    this.isWaiting = !isWaiting;
+    notifyListeners();
+  }
+
+  void resetState() {
+    this.isWaiting = false;
   }
 }

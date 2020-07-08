@@ -94,7 +94,7 @@ class PlayQuiz extends StatelessWidget {
       msg: "正解です",
       fontSize: 20.0,
       gravity: ToastGravity.CENTER,
-      toastLength: Toast.LENGTH_LONG,
+      toastLength: Toast.LENGTH_SHORT,
       backgroundColor: Colors.indigoAccent,
     );
   }
@@ -104,7 +104,7 @@ class PlayQuiz extends StatelessWidget {
       msg: "不正解です",
       fontSize: 20.0,
       gravity: ToastGravity.CENTER,
-      toastLength: Toast.LENGTH_LONG,
+      toastLength: Toast.LENGTH_SHORT,
       backgroundColor: Colors.redAccent,
     );
   }
@@ -128,40 +128,42 @@ class PlayQuiz extends StatelessWidget {
     List quizzes = [];
     return Scaffold(
       appBar: appBar('クイズ'),
-      body: Consumer<QuizProvider>(builder: (context, model, child) {
-        switch (level) {
-          case 1:
-            quizzes = model.level1Quizzes;
-            break;
-          case 2:
-            quizzes = model.level2Quizzes;
-            break;
-          case 3:
-            quizzes = model.level3Quizzes;
-        }
-        final _questionNumber = model.questionNumber;
-        return Container(
-          decoration: backgroundImage(),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20.0,
+      body: Consumer<QuizProvider>(
+        builder: (context, model, child) {
+          switch (level) {
+            case 1:
+              quizzes = model.level1Quizzes;
+              break;
+            case 2:
+              quizzes = model.level2Quizzes;
+              break;
+            case 3:
+              quizzes = model.level3Quizzes;
+          }
+          final _questionNumber = model.questionNumber;
+          return Container(
+            decoration: backgroundImage(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 20.0,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Spacer(),
+                  _question(quizzes[_questionNumber].question, _questionNumber + 1),
+                  Spacer(flex: 2),
+                  _choiceButton(choice: quizzes[_questionNumber].option1, answer: quizzes[_questionNumber].correct, context: context, model: model),
+                  _choiceButton(choice: quizzes[_questionNumber].option2, answer: quizzes[_questionNumber].correct, context: context, model: model),
+                  _choiceButton(choice: quizzes[_questionNumber].option3, answer: quizzes[_questionNumber].correct, context: context, model: model),
+                  _choiceButton(choice: quizzes[_questionNumber].option4, answer: quizzes[_questionNumber].correct, context: context, model: model),
+                  Spacer(),
+                ],
+              ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Spacer(),
-                _question(quizzes[_questionNumber].question, _questionNumber + 1),
-                Spacer(flex: 2),
-                _choiceButton(choice: quizzes[_questionNumber].option1, answer: quizzes[_questionNumber].correct, context: context, model: model),
-                _choiceButton(choice: quizzes[_questionNumber].option2, answer: quizzes[_questionNumber].correct, context: context, model: model),
-                _choiceButton(choice: quizzes[_questionNumber].option3, answer: quizzes[_questionNumber].correct, context: context, model: model),
-                _choiceButton(choice: quizzes[_questionNumber].option4, answer: quizzes[_questionNumber].correct, context: context, model: model),
-                Spacer(),
-              ],
-            ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }
