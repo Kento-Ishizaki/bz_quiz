@@ -24,7 +24,11 @@ class Level extends StatelessWidget {
             splashColor: Colors.white.withAlpha(100),
             onTap: () async {
               model.changeState();
-              await Future.delayed(Duration(milliseconds: 1500));
+              await model.fetchLevel1Quizzes();
+              await model.fetchLevel2Quizzes();
+              await model.fetchLevel3Quizzes();
+              await model.resetState();
+              await model.resetQuiz();
               await Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -53,11 +57,6 @@ class Level extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<QuizProvider>(context, listen: false).fetchLevel1Quizzes();
-    Provider.of<QuizProvider>(context, listen: false).fetchLevel2Quizzes();
-    Provider.of<QuizProvider>(context, listen: false).fetchLevel3Quizzes();
-    Provider.of<QuizProvider>(context, listen: false).resetState();
-    Provider.of<QuizProvider>(context, listen: false).resetQuiz();
     return Scaffold(
       appBar: appBar('レベル選択'),
       body: Consumer<QuizProvider>(
